@@ -9,6 +9,23 @@ const _ = require('Lodash')
 
 const router = express.Router();
 
+
+router.get('/all-candidate', function(req,res){
+    console.log("api created")
+    let arr = ['kaushik','bhumi','ketan','subri','rahul','rohan','rohit']
+    res.send(arr)
+})
+
+router.get('/candidate', function(req,res){
+    console.log("list of people")
+    
+    let a = req.query.count
+    let arr = ['kaushik','bhumi','ketan','subri','rahul','rohan','rohit']
+    let result = arr.slice(0,a)
+
+    res.send(result)
+
+})
 router.get('/logger', function (req, res) {
     console.log('++++++++++++++++++++++++++++++++++++')
     
