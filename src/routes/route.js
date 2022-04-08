@@ -2,12 +2,40 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    // let a = { msg: "My first ever API response in JSON !!"} 
+const control = require("../controller/random")
+
+const players = [
+    {
+        "name": "manish",
+        "dob": "1/1/1995",
+        "gender": "male",
+        "city": "jalandhar",
+        "sports": [
+            "swimming"
+        ]
+    },
+    {
+        "name": "gopal",
+        "dob": "1/09/1995",
+        "gender": "male",
+        "city": "delhi",
+        "sports": [
+            "soccer"
+        ]
+    },
+    {
+        "name": "lokesh",
+        "dob": "1/1/1990",
+        "gender": "male",
+        "city": "mumbai",
+        "sports": [
+            "soccer"
+        ]
+    },
+]
 
 
-    res.send( { msg: "My first ever API response in JSON !!"} )
-});
+router.post('/player',control.addToPlayer);
 
 
 
