@@ -28,22 +28,12 @@ router.post("/getBooksInYear",async function(req , res) {
 })
 
 router.post("/getParticularBooks",async function(req,res) {
-    const obj ={
-     bookName : req.body.bookName,
-     authorName : req.body.authorName,
-     tags : req.body.tags,
-     stockAvailable : req.body.stockAvailable,
-     year : req.body.year
-    }
-    Object.keys(obj).forEach(k=>obj[k]==undefined && delete obj[k])
-
-    //const res = obj.filter(e=>e!=undefined)
+   
+    const cond = req.body
      const books = await BookModel.find(
-        obj
+        cond
      )
     res.send({msg:books})
-
-    console.log(obj)
     
 })
 
