@@ -3,13 +3,19 @@ const router = express.Router();
 // const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 //const BookController= require("../controllers/bookController")
-
+const middleware = require("../middlewares/commonMiddlewares")
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
+router.post("/createProduct",UserController.createProduct)
 
+router.post("/createUser",middleware.validate,UserController.createUser)
+
+router.post("/createOrder",middleware.validate,UserController.createOrder)
+
+module.exports = router;
 // router.post("/createUser", UserController.createUser  )
 // router.get("/getUsersData", UserController.getUsersData)
 
@@ -41,8 +47,8 @@ router.get("/test-me", function (req, res) {
 
 
 
-router.get("/basicRoute", UserController.basicCode)
-router.post('/create-a-user', UserController.createAUser)
+// router.get("/basicRoute", UserController.basicCode)
+// router.post('/create-a-user', UserController.createAUser)
 
 
 
@@ -53,4 +59,3 @@ router.post('/create-a-user', UserController.createAUser)
 
 
 
-module.exports = router;
