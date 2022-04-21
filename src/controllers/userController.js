@@ -24,15 +24,12 @@ const createOrder = async (req,res)=>{
         const temp2 = await ProductModel.findOne({_id:req.body.productId})
         if(temp2)
         {
-            if(req.headers['isfreeappuser']==true)
+            if(head=='true')
             {
                 console.log("1")
-                let order = await OrderModel.create({
-                    userId:temp1._id,
-                    productId:temp2._id,
-                    amount:0,
-                    isFreeAppUser:true
-                })
+                data.amount=0
+                data.isFreeAppUser=true
+                let order = await OrderModel.create(data)
                 res.send({msg:order})
             }
             else
@@ -47,7 +44,9 @@ const createOrder = async (req,res)=>{
                         amount:temp2.price,
                         isFreeAppUser:false
                     })
-                    await UserModel.findOneAndUpdate({_id:req.body.userId},{$set: {balance:newbalance}})
+                    temp1.balance=newbalance
+                    temp1.save()
+                    //await UserModel.findOneAndUpdate({_id:req.body.userId},{$set: {balance:newbalance}})
                      res.send({msg:order})
                 }
                 else{
