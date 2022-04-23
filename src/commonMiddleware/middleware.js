@@ -1,24 +1,53 @@
 const jwt = require("jsonwebtoken");
 
 
-const validateToken = async function(req,res,next){
+
+
+const validateToken = async function (req, res, next) {
+    try
+    {
     let token = req.headers['x-Auth-Token'] || req.headers['x-auth-token']
-// Check if the token is present
+    if (!token) {
+        res.status(404).send({ status: false, msg: "token must be present" });
+    }
+  
+        let decodedtoken = jwt.verify(token, "functionup-thorium")
+        if (!decodedtoken) {
+            return res.status(401).send({ status: false, msg: "token is invalid" });
+        
+            
+        }
+        next();
+    }
+    catch (err) {
+            res.status(500).send({ msg: Error, error: err.message })
 
-if(!token) 
-{
-    res.send({ status: false, msg: "token must be present" });
-}
-// Check if the token present is a valid token
-let decodedtoken = jwt.verify(token,"functionup-thorium")
-if(!decodedtoken){
-    res.send({ status: false, msg: "token is invalid" });
-}
+        }
     
+    
+}
 
-next();
+const authorization = async function (req, res, next) {
 
+    let token = req.headers['x-Auth-Token'] || req.headers['x-auth-token']
+    let user = req.params.userId
+    
+    try
+    {
+    const decodedtoken = jwt.verify(token, "functionup-thorium")
+    if (!decodedtoken)
+        return res.status(401).send({ status: false, msg: "token is invalid" });
+    
+    const id = decodedtoken.userId
+    if (user != id)
+        return res.status(403).send({ status: false, msg: "cannot access" });
+    next()
+
+    }
+    catch(err){
+        res.status(500).send({ msg: Error, error: err.message })
+    }
 
 }
 
-module.exports.validateToken =validateToken
+module.exports = { validateToken, authorization }
